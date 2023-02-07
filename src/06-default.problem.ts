@@ -5,9 +5,16 @@ import { z } from "zod";
 
 const Form = z.object({
   repoName: z.string(),
-  keywords: z.array(z.string()).optional(),
+  keywords: z.array(z.string()).optional().default([]),
   //                           ^ 🕵️‍♂️
 });
+
+// This is a nice trick! 
+// In this exercise, our input is slightly different
+// from our output but Zod gives us a cool way
+// to type this as well.
+type FormInput = z.input<typeof Form>;
+type FormOutput = z.infer<typeof Form>;
 
 export const validateFormInput = (values: unknown) => {
   const parsedData = Form.parse(values);
